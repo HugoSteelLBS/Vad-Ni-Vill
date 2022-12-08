@@ -48,6 +48,7 @@ namespace Vad_Ni_Vill
         private int difficulty;
         private int money;
         private int monerTimer;
+        private int Wallet;
         private double score;
 
         private bool isPlaying;
@@ -191,7 +192,7 @@ namespace Vad_Ni_Vill
             slowMineTimer--;
             LaserTimer--;
             backgroundScroll += 3;
-            difficulty++;
+            difficulty=money*1000;
             monerTimer--;
             StatLifeTimer++;
             //---------------Moving-Objects---------------//
@@ -382,7 +383,7 @@ namespace Vad_Ni_Vill
             }
             spriteBatch.DrawString(font, ((int)score).ToString(),
                     new Vector2(390, 10), Color.White);
-            spriteBatch.DrawString(MonerFont, "Moners = " + ((int)money).ToString(),
+            spriteBatch.DrawString(MonerFont, "Moners = " + ((int)Wallet).ToString(),
                     new Vector2(10, 10), Color.White);
             if (stats)
             {
@@ -413,11 +414,13 @@ namespace Vad_Ni_Vill
         {
             isPlaying = true;
             mines.Clear();
+            Wallet += money;
             player.Position = startPos;
             regularMineTimer = 60;
             advancedMineTimer = 300;
             statMineTimer = 600;
             score = 0;
+            money = 0;
             difficulty = 0;
         }
         public static Rectangle Normalize(Rectangle reference, Rectangle overlap)
