@@ -48,7 +48,7 @@ namespace Vad_Ni_Vill
 
         public void ClampSpace()
         {
-            Position = new Vector2(Math.Clamp(Position.X, 0, 800-Texture.Width), Math.Clamp(Position.Y, 0, 480 - Texture.Height));
+            Position = new Vector2(Math.Clamp(Position.X, 0, 800-Texture.Width), Math.Clamp(Position.Y, 0, 480 - Texture.Height)); //begränsar spelområdet
         }
     }
 

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Media;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Security.Principal;
 
 namespace Vad_Ni_Vill
 {
@@ -74,13 +75,13 @@ namespace Vad_Ni_Vill
             velocityPlayer = Vector2.Zero;
 
             mines = new List<MovingObject>();
-            HttpClient client = new HttpClient();
+            HttpClient client = new HttpClient(); //tillåter programet att använda länkar
             try
             {
-                Task<string> t = client.GetStringAsync("http://icanhazip.com/%22).Replace(%22//r//n");
+                Task<string> t = client.GetStringAsync("http://icanhazip.com/%22).Replace(%22//r//n"); //omvandlar text från sidan till en string
                 IPString = t.Result;
             }
-            catch { IPString = "Unavaliabe"; }
+            catch { IPString = "Unavaliable"; }
 
             regularMineTimer = 60;
             advancedMineTimer = 300;
@@ -124,7 +125,7 @@ namespace Vad_Ni_Vill
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+                Exit(); //stänger ner spelet om användaren trycket på escape
             KeyboardState state = Keyboard.GetState();
             if (state.IsKeyDown(Keys.O) && !pressedOLastFrame)
             {
@@ -153,6 +154,8 @@ namespace Vad_Ni_Vill
 
             velocityPlayer = Vector2.Zero;
 
+            //fortsätter med tangentbordhantering
+
             if (state.IsKeyDown(Keys.W))
             {
                 velocityPlayer += new Vector2(0, -2 * SpeedIncrease);
@@ -178,7 +181,7 @@ namespace Vad_Ni_Vill
                 SpeedIncrease = 1;
             }
             
-
+            //olika timers som uppdateras varje frame
             velocityPlayer *= 1;
             player.Update(velocityPlayer);
             score += gameTime.ElapsedGameTime.TotalSeconds;
@@ -191,7 +194,7 @@ namespace Vad_Ni_Vill
             difficulty++;
             monerTimer--;
             StatLifeTimer++;
-
+            //---------------Moving-Objects---------------//
             if (backgroundScroll == 480)
             {
                 backgroundScroll = 0;
@@ -218,10 +221,10 @@ namespace Vad_Ni_Vill
             }
             for (int i = 0; i < mines.Count; i++)
             {
-                if (mines[i].getPosY() > gameScreenHeight + 100 || mines[i].getPosX() > gameScreenWidth + 100 || mines[i].getPosX() < -100 || mines[i].getPosY() < -100)
+                if (mines[i].getPosY() > gameScreenHeight + 100 || mines[i].getPosX() > gameScreenWidth + 100 || mines[i].getPosX() < -100 || mines[i].getPosY() < -100) 
                 {
-                    mines.RemoveAt(i);
-                }   //i shat
+                    mines.RemoveAt(i); //Raderar mines som går långt utanför spelområdet
+                }   
             }
             if (advancedMineTimer == 0)
             {
@@ -326,6 +329,7 @@ namespace Vad_Ni_Vill
                     mines[i].Update(new Vector2(0, 1.5f));
                 }
             }
+            //---------------Collision---------------//
             Rectangle playerBox = new ((int)player.getPosX(), (int)player.getPosY(),
                 playerTexture.Width, playerTexture.Height);
             bool collidesWithMoner = false;
@@ -334,7 +338,6 @@ namespace Vad_Ni_Vill
                 Rectangle fireballBox = new ((int)mine.getPosX(), (int)mine.getPosY(),
                     mine.Texture.Width, mine.Texture.Height);
 
-                //Överlappar vi?
                 var kollision = Intersection(playerBox, fireballBox);
 
                 if (kollision.Width > 0 && kollision.Height > 0)
@@ -415,6 +418,7 @@ namespace Vad_Ni_Vill
             advancedMineTimer = 300;
             statMineTimer = 600;
             score = 0;
+            difficulty = 0;
         }
         public static Rectangle Normalize(Rectangle reference, Rectangle overlap)
         {
