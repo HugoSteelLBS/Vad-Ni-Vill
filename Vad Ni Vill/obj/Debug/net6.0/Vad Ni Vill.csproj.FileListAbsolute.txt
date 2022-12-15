@@ -40,3 +40,4 @@ C:\Users\hugo.stalberg\source\repos\Vad Ni Vill\Vad Ni Vill\bin\Debug\net6.0\Con
 C:\Users\hugo.stalberg\source\repos\Vad Ni Vill\Vad Ni Vill\bin\Debug\net6.0\Content\BigLazerScroll.xnb
 C:\Users\hugo.stalberg\source\repos\Vad Ni Vill\Vad Ni Vill\bin\Debug\net6.0\Content\5Moner.xnb
 C:\Users\hugo.stalberg\source\repos\Vad Ni Vill\Vad Ni Vill\bin\Debug\net6.0\Content\MonerFont.xnb
+C:\Users\hugo.stalberg\source\repos\Vad Ni Vill\Vad Ni Vill\bin\Debug\net6.0\Content\fantasticerPlane.xnb

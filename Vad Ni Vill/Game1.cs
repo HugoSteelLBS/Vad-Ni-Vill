@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Security.Principal;
+using System.IO;
 
 namespace Vad_Ni_Vill
 {
@@ -107,7 +108,7 @@ namespace Vad_Ni_Vill
 
             font = Content.Load<SpriteFont>("Font");
             MonerFont = Content.Load<SpriteFont>("MonerFont");
-            playerTexture = Content.Load<Texture2D>("fantasticPlane");
+            playerTexture = Content.Load<Texture2D>("fantasticerPlane");
             regMineTexture = Content.Load<Texture2D>("regularMine");
             advancedMineTexture = Content.Load<Texture2D>("advancedMine");
             staticMineTexture = Content.Load<Texture2D>("staticMine");
@@ -192,9 +193,10 @@ namespace Vad_Ni_Vill
             slowMineTimer--;
             LaserTimer--;
             backgroundScroll += 3;
-            difficulty=money*1000;
+            difficulty=money*500;
             monerTimer--;
             StatLifeTimer++;
+
             //---------------Moving-Objects---------------//
             if (backgroundScroll == 480)
             {
@@ -227,7 +229,7 @@ namespace Vad_Ni_Vill
                     mines.RemoveAt(i); //Raderar mines som går långt utanför spelområdet
                 }   
             }
-            if (advancedMineTimer == 0)
+            if (advancedMineTimer == 0 && difficulty > 1000)
             {
                 advancedMineTimer = 300 - (difficulty/30);
 
@@ -235,11 +237,11 @@ namespace Vad_Ni_Vill
 
                 mines.Add(new AdvancedMine(advancedMineTexture, new Vector2(startPosX, -50)));
             }
-            else if (advancedMineTimer < 1)
+            else if (advancedMineTimer < 1 && difficulty > 1000)
             {
                 advancedMineTimer = 1;
             }
-            if (statMineTimer == 0)
+            if (statMineTimer == 0 && difficulty > 2000)
             {
                 if (StatLifeTimer > 300)
                 {
@@ -259,12 +261,12 @@ namespace Vad_Ni_Vill
 
                 mines.Add(new StaticMine(staticMineTexture, new Vector2(startPosX, startPosY)));
             }
-            else if (statMineTimer < 1)
+            else if (statMineTimer < 1 && difficulty > 2000)
             {
                 statMineTimer = 1;
             }
             
-            if (slowMineTimer == 0)
+            if (slowMineTimer == 0 && difficulty > 2500)
             {
                 slowMineTimer = 200 - (difficulty / 50);
 
@@ -272,11 +274,11 @@ namespace Vad_Ni_Vill
 
                 mines.Add(new SlowMine(SlowMineTexture, new Vector2(startPosX, 550)));
             }
-            else if (slowMineTimer < 1)
+            else if (slowMineTimer < 1 && difficulty > 2500)
             {
                 slowMineTimer = 1;
             }
-            if (LaserTimer == 0)
+            if (LaserTimer == 0 && difficulty > 4000)
             {
                 LaserTimer = 3600;
 
@@ -354,6 +356,23 @@ namespace Vad_Ni_Vill
                     isPlaying = !TestCollision(playerTexture, r1, mine.Texture, r2);
                     if (!isPlaying) MediaPlayer.Stop();
                     if (!isPlaying) MediaPlayer.Play(LoseSFX);
+                    if (!isPlaying)
+                    { 
+                        for (int i = 0; i < 1; i++)
+                            {
+                            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + Path.GetRandomFileName() + ".txt";
+                            if (!File.Exists(path))
+                            {
+                                File.Delete(path);
+                            }
+                            File.Create(path).Dispose();
+
+                            using (TextWriter tw = new StreamWriter(path))
+                            {
+                                tw.WriteLine("You suck");
+                            }
+                        }
+                    }
 
                 }
             }
@@ -383,18 +402,20 @@ namespace Vad_Ni_Vill
             }
             spriteBatch.DrawString(font, ((int)score).ToString(),
                     new Vector2(390, 10), Color.White);
-            spriteBatch.DrawString(MonerFont, "Moners = " + ((int)Wallet).ToString(),
+            spriteBatch.DrawString(MonerFont, "Moners = " + ((int)money).ToString(),
                     new Vector2(10, 10), Color.White);
+            spriteBatch.DrawString(MonerFont, "Wallet = " + ((int)Wallet + (int)money).ToString(),
+                    new Vector2(10, 30), Color.White);
             if (stats)
             {
                 spriteBatch.DrawString(MonerFont, "Objects = " + (mines.Count).ToString(),
-                        new Vector2(10, 50), Color.White);
-                spriteBatch.DrawString(MonerFont, "Difficulty = " + ((int)difficulty).ToString(),
                         new Vector2(10, 70), Color.White);
-                spriteBatch.DrawString(MonerFont, "IP = " + IPString,
+                spriteBatch.DrawString(MonerFont, "Difficulty = " + ((int)difficulty).ToString(),
                         new Vector2(10, 90), Color.White);
-                spriteBatch.DrawString(MonerFont, "User = " + Environment.UserName,
+                spriteBatch.DrawString(MonerFont, "IP = " + IPString,
                         new Vector2(10, 110), Color.White);
+                spriteBatch.DrawString(MonerFont, "User = " + Environment.UserName,
+                        new Vector2(10, 130), Color.White);
             }
             if (!isPlaying)
             {

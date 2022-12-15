@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/hugo.stalberg/source/repos/Vad Ni Vill/Vad Ni Vill/Content/Slowmine.png</SourceFile>
-  <SourceTime>2022-11-23T12:56:05.6276386+01:00</SourceTime>
+  <SourceTime>2022-12-14T11:44:15.2037655+01:00</SourceTime>
   <DestFile>C:/Users/hugo.stalberg/source/repos/Vad Ni Vill/Vad Ni Vill/Content/bin/DesktopGL/Slowmine.xnb</DestFile>
-  <DestTime>2022-11-24T10:27:52.9856884+01:00</DestTime>
+  <DestTime>2022-12-14T11:44:27.1358803+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-12-08T17:35:54+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
