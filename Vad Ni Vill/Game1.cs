@@ -1,4 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿///<summary>
+/// Namn: Hugo STålberg
+/// Klass: SU21
+/// Info:
+/// Huvudprogrammet för spelet
+/// </summary>
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -13,6 +19,9 @@ using System.IO;
 
 namespace Vad_Ni_Vill
 {
+    /// <summary>
+    /// Klass för huvudprogrammet
+    /// </summary>
     public class Game1 : Game
     {
         private readonly GraphicsDeviceManager _graphics;
@@ -36,7 +45,9 @@ namespace Vad_Ni_Vill
         private Player player;
 
         private List<MovingObject> mines;
-
+        /// <value>
+        /// Tal för programmet
+        /// </value>
         private int regularMineTimer;
         private int advancedMineTimer;
         private int statMineTimer;
@@ -50,27 +61,40 @@ namespace Vad_Ni_Vill
         private int money;
         private int monerTimer;
         private int Wallet;
+        private int LaserLifeTimer;
+        private int StatLifeTimer;
         private double score;
-
+        /// <value>
+        /// Bools för programmet
+        /// </value>
         private bool isPlaying;
         private bool stats;
         private bool pressedOLastFrame;
-        private int LaserLifeTimer;
-        private int StatLifeTimer;
-
+        /// <value>
+        /// Musik och ljudeffekter för spelet
+        /// </value>
         private Song SoundSpace;
         private Song LoseSFX;
-
+        /// <value>
+        /// Slumpat tal för spelet
+        /// </value>
         private Random rnd;
+        /// <value>
+        /// Strings för programmet
+        /// </value>
         string IPString;
-
+        /// <summary>
+        /// Konstruktor för huvudprogrammet
+        /// </summary>
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
-
+        /// <summary>
+        /// Ger variabler deras startvärden
+        /// </summary>
         protected override void Initialize()
         {
             startPos = new Vector2(400,400);
@@ -101,7 +125,9 @@ namespace Vad_Ni_Vill
 
             base.Initialize();
         }
-
+        /// <summary>
+        /// Laddar in sprites för objekten
+        /// </summary>
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -123,7 +149,10 @@ namespace Vad_Ni_Vill
 
 
         }
-
+        /// <summary>
+        /// Kod som körs varje frame
+        /// </summary>
+        /// <param name="gameTime">Total tid som spelet har varit aktiv för</param>
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -386,8 +415,10 @@ namespace Vad_Ni_Vill
 
 
             base.Update(gameTime);
-        }
-                                                                                                           
+        }                                                                                                   
+        /// <summary>
+        /// Ritar ut sprites och text
+        /// </summary>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Peru);
@@ -430,7 +461,9 @@ namespace Vad_Ni_Vill
 
             base.Draw(gameTime);
         }
-
+        /// <summary>
+        /// Rensar information om det aktuella spelet
+        /// </summary>
         private void Reset()
         {
             isPlaying = true;
@@ -444,6 +477,12 @@ namespace Vad_Ni_Vill
             money = 0;
             difficulty = 0;
         }
+        /// <summary>
+        /// Normaliserar sprites höjd och bredd
+        /// </summary>
+        /// <param name="reference">En sprites total längd</param>
+        /// <param name="overlap">kollar om 2 sprites overlapar</param>
+        /// <returns>värden på overlap</returns>
         public static Rectangle Normalize(Rectangle reference, Rectangle overlap)
         {
             //Räkna ut en rektangel som kan användas relativt till referensrektangeln
@@ -453,7 +492,14 @@ namespace Vad_Ni_Vill
                 overlap.Width,
                 overlap.Height);
         }
-
+        /// <summary>
+        /// Testar om två objekt overlapar
+        /// </summary>
+        /// <param name="t1">Texture på det första objektet</param>
+        /// <param name="r1">Ett sökområde omkring texture på det första objektet</param>
+        /// <param name="t2">Texture på det andra objektet</param>
+        /// <param name="r2">Ett sökområde omkring texture på det andra objektet</param>
+        /// <returns>Om objektet kolliderar med ett annat</returns>
         public static bool TestCollision(Texture2D t1, Rectangle r1, Texture2D t2, Rectangle r2)
         {
             //Beräkna hur många pixlar som finns i området som ska undersökas
@@ -475,7 +521,12 @@ namespace Vad_Ni_Vill
             }
             return false;
         }
-
+        /// <summary>
+        /// Skickar en rektangel på sökområdet på ett objekt
+        /// </summary>
+        /// <param name="r1">Ett sökområde omkring texture på det första objektet</param>
+        /// <param name="r2">Ett sökområde omkring texture på det andra objektet</param>
+        /// <returns>Skickar en rektangel på sökområdet på ett objekt</returns>
         public static Rectangle Intersection(Rectangle r1, Rectangle r2)
         {
             int x1 = Math.Max(r1.Left, r2.Left);
