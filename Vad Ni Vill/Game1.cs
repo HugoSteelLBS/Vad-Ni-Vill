@@ -222,7 +222,7 @@ namespace Vad_Ni_Vill
             slowMineTimer--;
             LaserTimer--;
             backgroundScroll += 3;
-            difficulty=money*500;
+            difficulty=(money*500-Wallet) + ((int)score*10);
             monerTimer--;
             StatLifeTimer++;
 
